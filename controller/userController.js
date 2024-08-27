@@ -1,5 +1,5 @@
 const User = require("../model/userModel");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 module.exports.register = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -11,11 +11,11 @@ module.exports.register = async (req, res, next) => {
     if (emailCheck) {
       return res.json({ msg: "email is already used", status: false });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       email,
       username,
-      password: hashedPassword,
+      password,
     });
     delete user.password;
     return res.json({ status: true, user });
@@ -34,12 +34,12 @@ module.exports.login = async (req, res, next) => {
     console.log("Comparing Password:", password);
     console.log("Stored Hashed Password:", user.password);
 
-    const isPassworldValid = await bcrypt.compare(password, user.password);
+    // const isPassworldValid = await bcrypt.compare(password, user.password);
     console.log("Is Password Valid:", isPassworldValid);
-    if (!isPassworldValid) {
-      return res.json({ msg: "Incorrect username or password", status: false });
-    }
-    delete user.password;
+    // if (!isPassworldValid) {
+    //   return res.json({ msg: "Incorrect username or password", status: false });
+    // }
+    // delete user.password;
     return res.json({ status: true, user });
   } catch (error) {
     next(error);
